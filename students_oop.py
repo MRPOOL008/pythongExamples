@@ -2,8 +2,6 @@ import sys
 
 class Students:
     def __init__(self, name, house, patronos):
-        if not name:
-            raise ValueError("Invalid Name")
         self.name = name
         self.house = house
         self.patronos = patronos
@@ -19,35 +17,46 @@ class Students:
                 return "🦦"
             case _:
                 return "🪄"
-    
+
+    @property
+    def name(self):
+        return self._name
+
+    #setter name
+    @name.setter
+    def name(self, name):
+        if not name:
+            raise ValueError("Invalid Name")
+        self._name = name
+
     @property
     def house(self):
         return self._house
 
-    #setter
+    #setter house
     @house.setter
-    def house  (self, house):
+    def house(self, house):
         if house not in ["Gryffindor", "Slytherin", "Hufflepuff", "Ravenclaw"]:
             raise ValueError("Invalid house")
         self._house = house
+
+    @classmethod
+    def get(cls):
+        name = input("Enter name: ")
+        house = input("Enter house: ")
+        patronos = input("Enter a patronos: ")
+        return cls(name, house, patronos)
         
 
 def main():
-    student = getStudent()
-    print(student)
-    print("Expecto Patronom!")
-    print(student.charm())
-
-def getStudent():
-    name = input("Enter name: ")
-    house = input("Enter house: ")
-    patronos = input("Enter a patronos: ")
     try:
-        return Students(name, house, patronos)
+        student = Students.get()
+        print(student)
+        print("Expecto Patronom!")
+        print(student.charm())
     except ValueError as e:
         print(e)
         sys.exit()
-    
 
 if __name__ == "__main__":
     main()
